@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "B9VJ/9ddfFFbjU0lnXFcJ8nc41Jokro7mFwIL8zSTrs=",
+  "Source": "ZapaliuiCandlesAPI",
+  "BasePath": "_content/ZapaliuiCandlesAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
