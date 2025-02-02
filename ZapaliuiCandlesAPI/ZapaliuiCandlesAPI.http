@@ -1,0 +1,6 @@
+@ZapaliuiCandlesAPI_HostAddress = http://localhost:5228
+
+GET {{ZapaliuiCandlesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
