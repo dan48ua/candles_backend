@@ -1,0 +1,37 @@
+{
+	"name": "c-f2",
+	"version": "1.0.0",
+	"description": "Professional practice in computing final project",
+	"main": "index.js",
+	"module": "commonjs",
+	"scripts": {
+		"dev": "ts-node-dev --respawn --transpile-only --exit-child -r tsconfig-paths/register src/server.ts"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@nestjs/common": "^11.0.12",
+		"@prisma/client": "^6.5.0",
+		"commonjs": "^0.0.1",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.7",
+		"express": "^4.21.2",
+		"helmet": "^8.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"morgan": "^1.10.0",
+		"nestjs": "^0.0.1",
+		"ts-node-dev": "^2.0.0",
+		"tsconfig-paths": "^4.2.0"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^5.0.2",
+		"@types/cors": "^2.8.17",
+		"@types/express": "^5.0.1",
+		"@types/jsonwebtoken": "^9.0.9",
+		"@types/morgan": "^1.9.9",
+		"@types/node": "^22.13.11",
+		"bcrypt": "^5.1.1",
+		"prisma": "^6.5.0",
+		"typescript": "^5.8.2"
+	}
+}
