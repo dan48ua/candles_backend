@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import prisma from './config/prisma'
 import authRouter from './routes/authRouter'
+import productRouter from './routes/productRouter'
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ async function main() {
 	app.use(morgan('dev'))
 
 	app.use('/api/auth', authRouter)
+	app.use('/api/product', productRouter)
 
 	app.get('/users', async (req: Request, res: Response) => {
 		const ALL_USERS = await prisma.user.findMany()
