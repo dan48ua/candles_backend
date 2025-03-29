@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { user } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import prisma from '../config/prisma'
@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SERCER || 'your_jwt_secret'
 const regularExpressinos = new RegularExpressinos()
 
 export class AuthService {
-	public async register(data: IRegister): Promise<User> {
+	public async register(data: IRegister): Promise<user> {
 		const { email, password, name, phone } = data
 		regularExpressinos.emailEx(email)
 		regularExpressinos.phoneEx(phone)
@@ -28,7 +28,7 @@ export class AuthService {
 		return newUser
 	}
 
-	public async login(data: ILogin): Promise<{ token: string; user: User }> {
+	public async login(data: ILogin): Promise<{ token: string; user: user }> {
 		const { email, password } = data
 		const user = await prisma.user.findUnique({ where: { email } })
 
