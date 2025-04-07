@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ILogin, IRegister } from '../dto/auth.dto'
-import { AuthService } from '../services/auth.servise'
+import { AuthService } from '../services/auth.serviсe'
 
 export class AuthController {
 	private authService: AuthService
