@@ -3,7 +3,7 @@ import prisma from '../config/prisma'
 
 type CartItem = basket
 export class basketServise {
-	public async add(
+	public async editBasket(
 		userId: string,
 		productId: string,
 		quantity: number
@@ -42,5 +42,39 @@ export class basketServise {
 			},
 		})
 		return createItem
+	}
+
+	public async getBasket(userId: string): Promise<CartItem[]> {
+		const allItems = await prisma.basket.findMany({
+			where: {
+				user_id: userId,
+			},
+			include: {
+				product: true,
+			},
+		})
+		return allItems
+	}
+
+	public async deleteItem(userId: string, productId: string): Promise<boolean> {
+		const deleteItem = await prisma.basket.deleteMany({
+			where: {
+				user_id: userId,
+				product_id: productId,
+			},
+		})
+		if (!deleteItem) {
+			throw new Error()
+			return false
+		}
+		return true
+	}
+
+	public async clearBasket(userId: string): Promise<void> {
+		const clearBasket = await prisma.basket.deleteMany({
+			where: {
+				user_id: userId,
+			},
+		})
 	}
 }
