@@ -3,7 +3,7 @@ import prisma from '../config/prisma'
 
 type CartItem = basket
 export class basketServise {
-	public async editBasket(
+	public async editItem(
 		userId: string,
 		productId: string,
 		quantity: number
@@ -28,6 +28,9 @@ export class basketServise {
 				where: { id: existingProduct.id },
 				data: { quantity: quantity + existingQuantity },
 			})
+			if (updateItem.quantity <= 0) {
+				this.deleteItem(userId, productId)
+			}
 			return updateItem
 		}
 		if (!product?.price) {
