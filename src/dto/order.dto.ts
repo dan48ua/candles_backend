@@ -6,7 +6,7 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
-	userId: string
 	items: IOrderItem[]
+	userId: string
 	amount: number
 }
