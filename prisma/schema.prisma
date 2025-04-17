@@ -8,30 +8,28 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model order_products {
-  id         String  @id @unique @default(cuid())
-  order_id   String
-  quantity   Int
-  amount     Int
-  product_id String
-  order      order   @relation(fields: [order_id], references: [id])
-  product    product @relation(fields: [product_id], references: [id])
-}
-
 model basket {
   id         String  @id @unique @default(cuid())
   quantity   Int
-  amount     Int
   product_id String
   user_id    String
   product    product @relation(fields: [product_id], references: [id])
   user       user    @relation(fields: [user_id], references: [id])
 }
 
+model order_products {
+  id         String  @id @unique @default(cuid())
+  order_id   String
+  product_id String
+  quantity   Int
+  order      order   @relation(fields: [order_id], references: [id])
+  product    product @relation(fields: [product_id], references: [id])
+}
+
 model order {
   id             String           @id(map: "Order_pkey") @unique(map: "Order_id_key") @default(cuid())
-  number         String
   userId         String
+  status         Boolean          @default(false)
   createdAt      DateTime         @default(now())
   user           user             @relation(fields: [userId], references: [id], map: "Order_userId_fkey")
   order_products order_products[]
@@ -50,6 +48,7 @@ model user {
   id        String   @id(map: "users_pkey") @unique(map: "users_id_key") @default(cuid())
   email     String   @unique(map: "users_email_key")
   name      String
+  surname   String
   password  String
   createdAt DateTime @default(now())
   phone     String   @unique(map: "users_phone_key")
