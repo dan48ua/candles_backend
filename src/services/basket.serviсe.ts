@@ -41,7 +41,6 @@ export class basketServise {
 				user_id: userId,
 				product_id: productId,
 				quantity: quantity,
-				amount: product?.price * quantity,
 			},
 		})
 		return createItem
@@ -56,6 +55,12 @@ export class basketServise {
 				product: true,
 			},
 		})
+		if (!allItems) {
+			throw new Error('Basket is empty')
+		}
+		if (allItems.length <= 0) {
+			throw new Error('Basket is empty')
+		}
 		return allItems
 	}
 
