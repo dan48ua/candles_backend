@@ -4,9 +4,9 @@ import { IProduct } from '../dto/product.dto'
 
 export class ProductServise {
 	public async createProduct(data: IProduct): Promise<product> {
-		const { name, price, description } = data
+		const { name, price, weight, description } = data
 		const newProduct = prisma.product.create({
-			data: { name, price, description },
+			data: { name, price, description, weight },
 		})
 		return newProduct
 	}

@@ -10,7 +10,7 @@ const regularExpressinos = new RegularExpressinos()
 
 export class AuthService {
 	public async register(data: IRegister): Promise<user> {
-		const { email, password, name, phone } = data
+		const { email, password, name, phone, surname } = data
 		regularExpressinos.emailEx(email)
 		regularExpressinos.phoneEx(phone)
 		const existingUser = await prisma.user.findUnique({ where: { email } })
@@ -23,7 +23,7 @@ export class AuthService {
 		}
 		const hashedPassword = await bcrypt.hash(password, 10)
 		const newUser = await prisma.user.create({
-			data: { email, password: hashedPassword, name, phone },
+			data: { email, password: hashedPassword, name, phone, surname },
 		})
 		return newUser
 	}
