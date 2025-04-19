@@ -18,7 +18,7 @@ export class AuthController {
 		}
 	}
 
-	public login = async (req: Request, res: Response): Promise<void> => {
+	public login = async (req: Request, res: Response) => {
 		try {
 			const data: ILogin = req.body
 			const result = await this.authService.login(data)
