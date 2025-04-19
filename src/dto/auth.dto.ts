@@ -1,8 +1,9 @@
 export interface IRegister {
+	name: string
+	surname: string
 	email: string
 	password: string
 	phone: string
-	name: string
 }
 
 export interface ILogin {
