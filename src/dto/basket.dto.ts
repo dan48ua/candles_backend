@@ -1,5 +1,3 @@
-import { IProduct } from './product.dto'
-
 export interface IBasket {
 	id: string
 	quantity: number
@@ -10,6 +8,6 @@ export interface IBasket {
 
 export interface IBasketItem {
 	productId: string
-	price: IProduct
+	userId: string
 	quantity: number
 }

@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import prisma from './config/prisma'
 import authRouter from './routes/authRouter'
+import basketRouter from './routes/basketRouter'
 import productRouter from './routes/productRouter'
 
 dotenv.config()
@@ -18,6 +19,7 @@ async function main() {
 	app.use(helmet())
 	app.use(morgan('dev'))
 
+	app.use('/api/basket', basketRouter)
 	app.use('/api/auth', authRouter)
 	app.use('/api/product', productRouter)
 
