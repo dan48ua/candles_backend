@@ -1,13 +1,11 @@
 import { basket } from '@prisma/client'
 import prisma from '../config/prisma'
+import { IBasketItem } from '../dto/basket.dto'
 
 type CartItem = basket
 export class basketServise {
-	public async editItem(
-		userId: string,
-		productId: string,
-		quantity: number
-	): Promise<CartItem> {
+	public async editItemQuantity(data: IBasketItem): Promise<number> {
+		const { userId, productId, quantity } = data
 		if (quantity < 0) {
 			throw new Error('Not valid quantity')
 		}
@@ -31,7 +29,7 @@ export class basketServise {
 			if (updateItem.quantity <= 0) {
 				this.deleteItem(userId, productId)
 			}
-			return updateItem
+			return updateItem.quantity
 		}
 		if (!product?.price) {
 			throw new Error('Invalid price data')
@@ -43,7 +41,7 @@ export class basketServise {
 				quantity: quantity,
 			},
 		})
-		return createItem
+		return createItem.quantity
 	}
 
 	public async getBasket(userId: string): Promise<CartItem[]> {
