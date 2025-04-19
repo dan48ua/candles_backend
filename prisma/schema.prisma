@@ -39,6 +39,7 @@ model product {
   id             String           @id(map: "Product_pkey") @unique(map: "Product_id_key") @default(cuid())
   name           String           @unique(map: "Product_name_key")
   price          Int
+  weight         Int
   description    String?
   basket         basket[]
   order_products order_products[]
