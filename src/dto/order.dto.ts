@@ -6,7 +6,7 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
-	userId: string
+	user_id: string
 	status: boolean
 }
 

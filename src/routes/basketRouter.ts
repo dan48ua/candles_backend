@@ -6,7 +6,7 @@ const basketController = new BasketController()
 
 router.get('/', basketController.getBasket)
 router.post('/add', basketController.editItemQuantity)
-router.delete('/delete/:id', basketController.deleteItem)
+router.delete('/delete', basketController.deleteItem)
 router.delete('/clear', basketController.clearBasket)
 
 export default router

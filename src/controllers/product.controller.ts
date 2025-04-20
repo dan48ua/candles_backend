@@ -26,7 +26,7 @@ export class ProductController {
 			}
 			res.status(201).json(product)
 		} catch (error: any) {
-			res.status(500).json({ message: error.message })
+			// res.status(500).json({ message: error.message })
 		}
 	}
 
@@ -44,6 +44,7 @@ export class ProductController {
 		try {
 			const data: IProduct = req.body
 			const { id } = req.params
+			console.log(id)
 			const result = await this.productServise.updateProduct(id, data)
 			res.status(201).json({ message: 'Product updated', result })
 		} catch (error: any) {

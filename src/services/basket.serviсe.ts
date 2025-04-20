@@ -49,9 +49,7 @@ export class basketServise {
 			where: {
 				user_id: userId,
 			},
-			include: {
-				product: true,
-			},
+			include: { product: true },
 		})
 		if (!allItems) {
 			throw new Error('Basket is empty')

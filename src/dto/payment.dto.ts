@@ -1,5 +1,5 @@
-export interface PaymentDto {
-	orderId: string
+export interface IPaymentDto {
+	currency: string
 	amount: number
-	paymentMethod: string
+	metadata?: { [key: string]: string }
 }

@@ -24,7 +24,7 @@ export class BasketController {
 	public getBasket = async (req: Request, res: Response) => {
 		// TODO: id shoud be from middleware
 		try {
-			const userId = req.body
+			const { userId } = req.body
 			const allItems = await this.basketService.getBasket(userId)
 			res.status(201).json(allItems)
 		} catch (error: any) {
@@ -46,7 +46,7 @@ export class BasketController {
 	public clearBasket = async (req: Request, res: Response) => {
 		// TODO: id shoud be from middleware
 		try {
-			const userId = req.body
+			const { userId } = req.body
 			const deletedItem = await this.basketService.clearBasket(userId)
 			res.status(201).json({ message: 'Basket cleared', deletedItem })
 		} catch (error: any) {
