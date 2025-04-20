@@ -17,7 +17,7 @@ export class ProductController {
 		}
 	}
 
-	public getById = async (req: Request, res: Response): Promise<void> => {
+	public getById = async (req: Request, res: Response) => {
 		try {
 			const { id } = req.params
 			const product = await this.productServise.getProductById(id)
