@@ -10,7 +10,7 @@ export class OrderController {
 	public createOrder = async (req: Request, res: Response) => {
 		// TODO: id should be from middleware
 		try {
-			const userId = req.body
+			const { userId } = req.body
 			const orderId = await this.orderService.createOrder(userId)
 			res.status(201).json({ message: 'Order created successfully', orderId })
 		} catch (error: any) {
@@ -23,11 +23,11 @@ export class OrderController {
 		// TODO: add clear basket if success
 		// TODO: id shoud be from middleware
 		try {
-			const userId = req.body
-			await this.orderService.createOrderProduct(userId)
-			res.status(201).json({ message: 'Order link created successfully' })
+			const { userId, paymentIntentId } = req.body
+			await this.orderService.checkout(userId, paymentIntentId)
+			res.status(200).json({ message: 'Order link created successfully' })
 		} catch (error: any) {
-			res.status(500).json({ error: 'Error creating order product' })
+			res.status(500).json({ message: error.message })
 		}
 	}
 

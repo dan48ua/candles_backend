@@ -2,17 +2,21 @@ import { order_products } from '@prisma/client'
 import prisma from '../config/prisma'
 import { IOrder } from '../dto/order.dto'
 import { basketServise } from './basket.serviсe'
+import { PaymentService } from './payment.service'
 
 export class orderService {
 	private basketService: basketServise
+	private paymentService: PaymentService
 	constructor() {
 		this.basketService = new basketServise()
+		this.paymentService = new PaymentService()
 	}
 
 	public async createOrder(userId: string): Promise<string> {
 		const createOrder = await prisma.order.create({
 			data: {
-				userId: userId,
+				user_id: userId,
+				status: false,
 			},
 		})
 		if (!createOrder) {
@@ -21,46 +25,50 @@ export class orderService {
 		return createOrder.id
 	}
 
-	public async createOrderProduct(userId: string): Promise<void> {
-		const isOrderExists = await prisma.order.findMany({
-			where: {
-				id: userId,
-				status: false,
-			},
+	public async checkout(
+		userId: string,
+		paymentIntentId: string
+	): Promise<void> {
+		await this.paymentService.confirmIntent(paymentIntentId)
+		const intent = await this.paymentService.getIntent(paymentIntentId)
+		if (intent.status !== 'succeeded') throw new Error('Платёж не завершён')
+
+		let orderr = await prisma.order.findFirst({
+			where: { user_id: userId, status: false },
 		})
-		if (isOrderExists.length < 0) {
-			await this.createOrder(userId)
-		}
-		if (isOrderExists.length > 1) {
-			await prisma.order.deleteMany({
-				where: {
-					userId: userId,
-					status: false,
-				},
+
+		if (!orderr) {
+			orderr = await prisma.order.create({
+				data: { user_id: userId, status: false },
 			})
 		}
-		const basket = await this.basketService.getBasket(userId)
-
-		if (!basket) {
-			throw new Error('Error basket is empty')
+		const basket = await prisma.basket.findMany({
+			where: { user_id: userId },
+		})
+		if (basket.length == 0) {
+			throw new Error('Корзина пуста')
 		}
 
-		const order = await prisma.order_products.createMany({
+		await prisma.order_products.createMany({
 			data: basket.map(item => ({
+				order_id: orderr!.id,
 				product_id: item.product_id,
 				quantity: item.quantity,
-				order_id: isOrderExists[0].id,
 			})),
 		})
-		if (!order) {
-			throw new Error('Error')
-		}
+
+		await prisma.order.update({
+			where: { id: orderr.id },
+			data: { status: true },
+		})
+
+		await this.basketService.clearBasket(userId)
 	}
 
 	public async getOrderHistory(userId: string): Promise<IOrder[]> {
 		const order = await prisma.order.findMany({
 			where: {
-				userId: userId,
+				user_id: userId,
 				status: true,
 			},
 		})
@@ -73,7 +81,7 @@ export class orderService {
 	public async getCurrentOrder(userId: string): Promise<IOrder> {
 		const order = await prisma.order.findFirst({
 			where: {
-				userId: userId,
+				user_id: userId,
 				status: false,
 			},
 		})

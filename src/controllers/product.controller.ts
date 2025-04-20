@@ -26,13 +26,17 @@ export class ProductController {
 			}
 			res.status(201).json(product)
 		} catch (error: any) {
-			res.status(500).json({ message: error.message })
+			// res.status(500).json({ message: error.message })
 		}
 	}
 
 	public createProduct = async (req: Request, res: Response) => {
 		try {
 			const data: IProduct = req.body
+			data.imageUrl = `/uploads/${data.imageUrl}`
+			console.log(data.imageUrl)
+			if (req.file) {
+			}
 			const product = await this.productServise.createProduct(data)
 			res.status(201).json({ message: 'Product created', id: product.id })
 		} catch (error: any) {
@@ -44,6 +48,10 @@ export class ProductController {
 		try {
 			const data: IProduct = req.body
 			const { id } = req.params
+			if (req.file) {
+				data.imageUrl = `/uploads/${req.file.filename}`
+			}
+			console.log(id)
 			const result = await this.productServise.updateProduct(id, data)
 			res.status(201).json({ message: 'Product updated', result })
 		} catch (error: any) {
