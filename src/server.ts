@@ -14,6 +14,7 @@ import productRouter from './routes/productRouter'
 dotenv.config()
 
 const app = express()
+const WEB_URL = process.env.WEB_URL || 'http://localhost:3000'
 const PORT = process.env.PORT || 5000
 
 async function main() {
@@ -21,6 +22,7 @@ async function main() {
 	app.use(cors())
 	app.use(helmet())
 	app.use(morgan('dev'))
+	app.use(cors({ origin: WEB_URL, credentials: true }))
 
 	app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 	app.use('/api/payment/', paymentRouter)
