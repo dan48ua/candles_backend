@@ -10,7 +10,7 @@
 		"prisma:generate": "prisma generate",
 		"build": "tsc",
 		"start": "node dist/server.js",
-		"start:prod": "npm run clean && npm run prisma:generate && npm run build && npm run start"
+		"start:prod": "npm run clean && npm run build && npm run start"
 	},
 	"author": "",
 	"license": "ISC",
