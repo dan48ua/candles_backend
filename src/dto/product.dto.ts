@@ -4,5 +4,5 @@ export interface IProduct {
 	price: number
 	weight: number
 	imageUrl: string
-	description?: string
+	description: string
 }

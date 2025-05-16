@@ -21,12 +21,13 @@ export class ProductController {
 		try {
 			const { id } = req.params
 			const product = await this.productServise.getProductById(id)
+			console.log('Product Name:', product?.name)
 			if (!product) {
 				res.status(404).json({ message: 'Product underfind' })
 			}
-			res.status(201).json(product)
+			res.status(201).json({ product })
 		} catch (error: any) {
-			// res.status(500).json({ message: error.message })
+			res.status(500).json({ message: error.message })
 		}
 	}
 
