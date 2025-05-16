@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import path from 'path'
 import prisma from './config/prisma'
+import { authMiddleware } from './middlewares/authMiddleware'
 import authRouter from './routes/authRouter'
 import basketRouter from './routes/basketRouter'
 import orderRouter from './routes/orderRouter'
@@ -25,9 +26,9 @@ async function main() {
 	app.use(cors({ origin: WEB_URL, credentials: true }))
 
 	app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
-	app.use('/api/payment/', paymentRouter)
-	app.use('/api/order/', orderRouter)
-	app.use('/api/basket/', basketRouter)
+	app.use('/api/payment/', authMiddleware, paymentRouter)
+	app.use('/api/order/', authMiddleware, orderRouter)
+	app.use('/api/basket/', authMiddleware, basketRouter)
 	app.use('/api/auth/', authRouter)
 	app.use('/api/product/', productRouter)
 
