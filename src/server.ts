@@ -17,6 +17,7 @@ dotenv.config()
 const app = express()
 const WEB_URL = process.env.WEB_URL || 'http://localhost:3000'
 const PORT = process.env.PORT || 5000
+const uploadsPath = path.join(__dirname, 'uploads')
 
 async function main() {
 	app.use(express.json())
@@ -25,7 +26,8 @@ async function main() {
 	app.use(morgan('dev'))
 	app.use(cors({ origin: WEB_URL, credentials: true }))
 
-	app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+	console.log('Serving /uploads from:', uploadsPath)
+	app.use('/uploads/', express.static(uploadsPath))
 	app.use('/api/payment/', authMiddleware, paymentRouter)
 	app.use('/api/order/', authMiddleware, orderRouter)
 	app.use('/api/basket/', authMiddleware, basketRouter)
@@ -46,6 +48,7 @@ async function main() {
 		res.send('API is running...')
 	})
 
+	console.log('STATIC PATH:', path.join(__dirname, 'uploads'))
 	app.listen(PORT, () => {
 		console.log('Server is running on port ', PORT)
 	})
