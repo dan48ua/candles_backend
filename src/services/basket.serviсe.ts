@@ -6,9 +6,7 @@ type CartItem = basket
 export class basketServise {
 	public async editItemQuantity(data: IBasketItem): Promise<number> {
 		const { userId, productId, quantity } = data
-		if (quantity < 0) {
-			throw new Error('Not valid quantity')
-		}
+
 		const existingProduct = await prisma.basket.findFirst({
 			where: {
 				product_id: productId,
@@ -42,6 +40,22 @@ export class basketServise {
 			},
 		})
 		return createItem.quantity
+	}
+
+	public async getBasketCount(userId: string): Promise<number> {
+		const allItems = await prisma.basket.findMany({
+			where: {
+				user_id: userId,
+			},
+		})
+		if (!allItems) {
+			throw new Error('Basket is empty')
+		}
+		if (allItems.length <= 0) {
+			throw new Error('Basket is empty')
+		}
+		const totalCount = allItems.reduce((acc, item) => acc + item.quantity, 0)
+		return totalCount
 	}
 
 	public async getBasket(userId: string): Promise<CartItem[]> {

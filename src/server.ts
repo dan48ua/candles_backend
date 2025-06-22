@@ -1,6 +1,6 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import path from 'path'
@@ -21,16 +21,25 @@ const uploadsPath = path.join(__dirname, 'uploads')
 
 async function main() {
 	app.use(express.json())
-	app.use(cors())
+	app.use(
+		cors({
+			origin: WEB_URL,
+			credentials: true,
+		})
+	)
 	app.use(helmet())
 	app.use(morgan('dev'))
 	app.use(cors({ origin: WEB_URL, credentials: true }))
 
-	console.log('Serving /uploads from:', uploadsPath)
-	app.use('/uploads/', express.static(uploadsPath))
+	app.use('/', (req: Request, res: Response, next: NextFunction) => {
+		res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+		next()
+	})
+
+	app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 	app.use('/api/payment/', authMiddleware, paymentRouter)
 	app.use('/api/order/', authMiddleware, orderRouter)
-	app.use('/api/basket/', authMiddleware, basketRouter)
+	app.use('/api/basket/', basketRouter)
 	app.use('/api/auth/', authRouter)
 	app.use('/api/product/', productRouter)
 

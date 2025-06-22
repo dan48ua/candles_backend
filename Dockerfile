@@ -7,11 +7,10 @@ RUN npm install
 
 COPY . .
 
-# Генерация Prisma Client (очень важно)
-RUN npx prisma generate
-
-# Сборка TypeScript после генерации клиента
 RUN npm run build
 
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN mkdir -p dist/uploads && cp -r src/uploads/* dist/uploads/
+
+EXPOSE 5000
+
+CMD ["node", "dist/server.js"]

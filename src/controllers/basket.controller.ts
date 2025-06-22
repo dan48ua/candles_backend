@@ -9,7 +9,6 @@ export class BasketController {
 	}
 
 	public editItemQuantity = async (req: Request, res: Response) => {
-		// TODO: id shoud be from middleware
 		try {
 			const data: IBasketItem = req.body
 			const newItem = await this.basketService.editItemQuantity(data)
@@ -21,12 +20,24 @@ export class BasketController {
 		}
 	}
 
-	public getBasket = async (req: Request, res: Response) => {
-		// TODO: id shoud be from middleware
+	public getBasketCount = async (req: Request, res: Response) => {
 		try {
 			const { userId } = req.body
+			const totalCount = await this.basketService.getBasketCount(userId)
+			res.status(201).json({ totalCount })
+		} catch (error: any) {
+			res.status(400).json({ message: error.message })
+		}
+	}
+
+	public getBasket = async (req: Request, res: Response) => {
+		try {
+			const userId = req.query.userId as string
+			// console.log('req.query:', req.query)
+			// console.log('userId', userId)
 			const allItems = await this.basketService.getBasket(userId)
-			res.status(201).json(allItems)
+			console.log('allItems:', allItems)
+			res.status(201).json({ allItems })
 		} catch (error: any) {
 			res.status(400).json({ message: error.message })
 		}
@@ -34,7 +45,6 @@ export class BasketController {
 
 	public deleteItem = async (req: Request, res: Response) => {
 		try {
-			// TODO: id shoud be from middleware
 			const { userId, productId } = req.body
 			const deletedItem = await this.basketService.deleteItem(userId, productId)
 			res.status(201).json({ message: 'Item deleted', deletedItem })
@@ -44,7 +54,6 @@ export class BasketController {
 	}
 
 	public clearBasket = async (req: Request, res: Response) => {
-		// TODO: id shoud be from middleware
 		try {
 			const { userId } = req.body
 			const deletedItem = await this.basketService.clearBasket(userId)
