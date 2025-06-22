@@ -36,7 +36,6 @@ export class BasketController {
 			// console.log('req.query:', req.query)
 			// console.log('userId', userId)
 			const allItems = await this.basketService.getBasket(userId)
-			console.log('allItems:', allItems)
 			res.status(201).json({ allItems })
 		} catch (error: any) {
 			res.status(400).json({ message: error.message })
